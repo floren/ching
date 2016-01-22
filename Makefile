@@ -1,12 +1,23 @@
 #	@(#)Makefile	8.1 (Berkeley) 05/31/93
+DESTDIR=/usr/local/games/
+DESTSHARE=/usr/local/share/games/ching/
+DESTMAN=/usr/local/man/man6/
 
-SUBDIR=	cno phx
-MAN6=	ching.0
+all:	ching.phx ching.cno
 
-beforeinstall:
-	install -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-	    ${.CURDIR}/ching.sh ${DESTDIR}/usr/games/ching
-	install -c -o ${BINOWN} -g ${BINGRP} -m 444 ${.CURDIR}/hexagrams \
-	    ${.CURDIR}/macros ${DESTDIR}/usr/share/games/ching
+ching.phx:
+	$(CC) -I. phx/ching.phx.c -o ching.phx
 
-.include <bsd.prog.mk>
+ching.cno:
+	$(CC) -I. cno/ching.cno.c -o ching.cno
+
+clean:
+	rm ching.phx ching.cno
+
+install:
+	install -d ${DESTDIR} ${DESTSHARE} ${DESTMAN}
+	install ching.sh ${DESTDIR}/ching
+	install ching.phx ${DESTDIR}
+	install ching.cno ${DESTDIR}
+	install -m 444 hexagrams macros ${DESTSHARE}
+	install -m 444 ching.6 ${DESTMAN}
