@@ -1,0 +1,14 @@
+This is a repackaging of the old I Ching program for Unix. While I distinctly remember seeing this in a Linux distribution's bsd-games package in the early 2000s, it does not seem to be in Debian any more.
+
+The source derives from https://github.com/weiss/original-bsd with minor changes to the build system and the installation location. It seems to work properly so I have not modified the code itself.
+
+To install, run:
+
+	make
+	sudo make install
+
+This will install the ching programs into /usr/local/games, the hexagrams and associated files into /usr/local/share/games/ching, and the man page into /usr/local/man/man6.
+
+The manual page explains it in more detail, but basic usage is as follows:
+
+	Run "ching". Type your question, then press Ctrl-D.
