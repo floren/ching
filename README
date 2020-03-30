@@ -1,4 +1,4 @@
-This is a repackaging of the old I Ching program for Unix. While I distinctly remember seeing this in a Linux distribution's bsd-games package in the early 2000s, it does not seem to be in Debian any more. See https://ewe2.ninja/computers/ching/ for more information about the mysterious origins of "ching".
+This is a repackaging of the old I Ching program for Unix. While I distinctly remember seeing this in a Linux distribution's bsd-games package in the early 2000s, it does not seem to be in Debian any more. See https://ewe2.ninja/stuff/computers/ching/ for more information about the mysterious origins of "ching".
 
 The source derives from https://github.com/weiss/original-bsd with minor changes to the build system and the installation location. It seems to work properly so I have not modified the code itself.
 
