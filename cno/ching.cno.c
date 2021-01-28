@@ -22,7 +22,12 @@ static char sccsid[] = "@(#)ching.cno.c	8.1 (Berkeley) 05/31/93";
  * cno - Read a question, cast a change, and output the line values to the
  * standard output for processing by "phx".
  */
+#include <sys/types.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <time.h>
 #include "ching.h"
 
 long	now;		/* current time */
@@ -37,15 +42,6 @@ int	table[2][2][2] = {
 	{ { OYIN,  YYANG,}, { YYANG, YYIN,} },
 	{ { YYANG, YYIN,},  { YYIN,  OYANG,} },
 };
-
-main()
-{
-	FILE *logf;
-
-	time(&now);
-	seed = (int)now + getquest() + getgid() + getuid() + getpid();	/* randomize */
-	printf("%s\n", change());
-}
 
 /*
  * Hash the question by adding all the characters together.
@@ -63,6 +59,23 @@ getquest()
 }
 
 /*
+ * Get a random number.
+ */
+unsigned
+getrand()
+{
+	return(seed = (seed*13077) + 6925);
+}
+
+/*
+ * Get a number more random than what getrand() gives.
+ */
+unsigned getrnum()
+{
+	return((getrand())>>(getrand()%17));
+}
+
+/*
  * Get a set of six lines making up a change.
  */
 char *
@@ -76,19 +89,13 @@ change()
 	return(string);
 }
 
-/*
- * Get a number more random than what getrand() gives.
- */
-getrnum()
+int main()
 {
-	return((getrand())>>(getrand()%17));
+	FILE *logf;
+
+	time(&now);
+	seed = (int)now + getquest() + getgid() + getuid() + getpid();	/* randomize */
+	printf("%s\n", change());
+	return(0);
 }
 
-/*
- * Get a random number.
- */
-unsigned
-getrand()
-{
-	return(seed = (seed*13077) + 6925);
-}

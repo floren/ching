@@ -21,7 +21,11 @@ static char sccsid[] = "@(#)ching.phx.c	8.1 (Berkeley) 05/31/93";
 /*
  * phx - Print NROFF/TROFF source of change, given the line values.
  */
+#include <sys/types.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdlib.h>
 #include "ching.h"
 #include "pathnames.h"
 
@@ -57,10 +61,14 @@ int	trigrams[6];
 int	moving[6];
 
 FILE	*chingf;		/* stream to read the hexagram file */
+void phx(int, int);
+int doahex();
+int codem(int);
+int changes();
 
 char	*gets();
 
-main(argc, argv)
+int main(argc, argv)
 int argc;
 char **argv;
 {
@@ -91,6 +99,7 @@ char **argv;
 	phx(doahex(), 0);
 	if (changes())
 		phx(doahex(), 1);
+	return(0);
 }
 
 /*
@@ -118,7 +127,7 @@ doahex()
  * Encode a trigram as a 3-digit number; the digits, from left to right,
  * represent the lines.  7 is a solid (yang) line, 8 is a broken (yin) line.
  */
-codem(a)
+int codem(a)
 int a;
 {
 	register int code, i;
@@ -150,7 +159,7 @@ int a;
  * Compute the changes based on moving lines; return 1 if any lines moved,
  * 0 if no lines moved.
  */
-changes()
+int changes()
 {
 	register int cflag;
 	register int i;
@@ -173,7 +182,7 @@ changes()
  * if flag is 0, print the entire source; if flag is 1, ignore the meanings
  * of the lines.
  */
-phx(hexagram, flag)
+void phx(hexagram, flag)
 int hexagram;
 int flag;
 {
